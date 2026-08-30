@@ -1,6 +1,6 @@
-import 'dotenv/config';
-import { test as setup, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage.js';
+require('dotenv/config');
+const { test: setup, expect } = require('@playwright/test');
+const { LoginPage } = require('../pages/LoginPage.js');
 
 const authFile = 'playwright/.auth/user.json';
 

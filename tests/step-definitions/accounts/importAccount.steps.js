@@ -1,5 +1,5 @@
-import { createBdd } from 'playwright-bdd';
-import { AccountPage } from '../../pages/AccountsPage.js';
+const { createBdd } = require('playwright-bdd');
+const { AccountPage } = require('../../pages/AccountsPage.js');
 
 const { Given, When, Then } = createBdd();
 

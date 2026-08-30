@@ -1,4 +1,4 @@
-import { createBdd } from 'playwright-bdd';
+const { createBdd } = require('playwright-bdd');
 
 const { Given } = createBdd();
 

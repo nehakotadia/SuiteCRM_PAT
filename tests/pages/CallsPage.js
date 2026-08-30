@@ -1,4 +1,4 @@
-export class CallsPage {
+class CallsPage {
   constructor(page) {
     this.page = page;
     
@@ -51,3 +51,5 @@ export class CallsPage {
     await this.rescheduleButton.click();
   }
 }
+
+module.exports = { CallsPage };

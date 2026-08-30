@@ -1,4 +1,4 @@
-export class CalendarPage {
+class CalendarPage {
   constructor(page) {
     this.page = page;
 
@@ -59,3 +59,5 @@ export class CalendarPage {
     await event.dragTo(destination);
   }
 }
+
+module.exports = { CalendarPage };

@@ -1,5 +1,5 @@
-import 'dotenv/config';
-import { createBdd } from 'playwright-bdd';
+require('dotenv/config');
+const { createBdd } = require('playwright-bdd');
 
 const { Before } = createBdd();
 

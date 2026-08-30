@@ -1,15 +1,16 @@
 // @ts-check
 
-import { defineConfig, devices } from '@playwright/test';
-import { defineBddConfig } from 'playwright-bdd';
-import 'dotenv/config';
+const { defineConfig, devices } = require('@playwright/test');
+const { defineBddConfig } = require('playwright-bdd');
+require('dotenv/config');
 
 const testDir = defineBddConfig({
   features: 'tests/features/**/*.feature',
   steps: ['tests/step-definitions/**/*.js', 'tests/hooks/**/*.js'],
 });
 
-export default defineConfig({
+module.exports = defineConfig({
+  timeout: 240000,
 
   testDir,
 
@@ -21,7 +22,16 @@ export default defineConfig({
 
   workers: process.env.CI ? 1 : undefined,
 
-  reporter: 'html',
+  reporter: [
+        ['html', {
+            outputFolder: 'playwright-report',
+            open: 'always'
+        }],
+
+        ['allure-playwright', {
+            resultsDir: 'allure-results'
+        }]
+    ],
 
   use: {
     headless: !!process.env.CI,

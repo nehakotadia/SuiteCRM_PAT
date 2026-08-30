@@ -1,6 +1,6 @@
-import { expect } from '@playwright/test';
+const { expect } = require('@playwright/test');
 
-export class LoginPage {
+class LoginPage {
     constructor(page) {
         this.page = page;
 
@@ -10,7 +10,7 @@ export class LoginPage {
     }
 
     async goto() {
-        await this.page.goto(process.env.BASE_URL);
+        await this.page.goto(process.env.BASE_URL);        
     }
 
     async login(username, password) {
@@ -23,3 +23,5 @@ export class LoginPage {
         await expect(this.page.getByRole('link', { class: 'home-nav-link' })).toBeVisible();
     }   
 }
+
+module.exports = { LoginPage };
