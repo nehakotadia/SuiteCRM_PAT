@@ -3,9 +3,9 @@
 
 const XLSX = require('xlsx');
 const path = require('path');
+const logger = require('./logger.js');
 
 function readExcel(sheetName) {
-
     const filePath = path.join(
         __dirname,
         '..',
@@ -13,11 +13,13 @@ function readExcel(sheetName) {
         'TestData.xlsx'
     );
 
+    logger.info(`Loading Excel sheet: ${sheetName} from ${filePath}`);
     const workbook = XLSX.readFile(filePath);
 
     const worksheet = workbook.Sheets[sheetName];
 
     if (!worksheet) {
+        logger.error(`Sheet "${sheetName}" not found in Excel file`);
         throw new Error(`Sheet "${sheetName}" not found`);
     }
 

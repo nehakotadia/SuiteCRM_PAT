@@ -1,5 +1,6 @@
 require('dotenv/config');
 const { createBdd } = require('playwright-bdd');
+const logger = require('../utils/logger.js');
 
 const { Before } = createBdd();
 
@@ -8,8 +9,10 @@ const { Before } = createBdd();
 // navigate to the base URL before each scenario.
 Before(async function ({ page }) {
   if (!process.env.BASE_URL) {
+    logger.error('BASE_URL is not set. Define it in .env');
     throw new Error('BASE_URL is not set. Define it in .env');
   }
 
+  logger.info(`Opening application home page: ${process.env.BASE_URL}`);
   await page.goto(process.env.BASE_URL);
 });
