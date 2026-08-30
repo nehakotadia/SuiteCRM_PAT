@@ -1,3 +1,5 @@
+const { expect } = require('@playwright/test');
+
 class CalendarPage {
   constructor(page) {
     this.page = page;
