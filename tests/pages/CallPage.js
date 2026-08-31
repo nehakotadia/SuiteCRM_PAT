@@ -12,7 +12,7 @@ this.logCallLocator= page.getByRole('link', { name: 'Log Call' });
 this.verifyCallCreatePageLocator= page.locator('iframe').contentFrame().getByText('CREATE', { exact: true });
 
 this.viewCallsLink = page.getByRole('link', { name: 'View Calls', exact: true });
-this.verifylistViewLocator = page.getByText('CALLS', { exact: true });
+this.verifyListViewLocator = page.getByText('CALLS', { exact: true });
 
 this.importCallsLocator = page.getByRole('link', { name: 'Import Calls', exact: true });
 this.importWizardLocator = page.locator('iframe').contentFrame().getByRole('heading', { name: 'Step 1: Upload Import File', exact: true });
@@ -41,10 +41,9 @@ async verifyCallCreatePage() {
 
 async clickViewCalls() {
   await this.viewCallsLink.click();
-  await expect(this.viewCallsLink).toBeVisible({ timeout: 240000 });
 }
 async verifyListView() {
-  await expect(this.verifylistViewLocator).toBeVisible({ timeout: 240000 });
+  await expect(this.verifyListViewLocator).toBeVisible({ timeout: 240000 });
 }
 
 // SCENARIO 3 - IMPORT CALLS

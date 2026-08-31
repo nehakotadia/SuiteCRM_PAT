@@ -37,6 +37,8 @@ Given('the user is currently working inside the active execution profile', async
 When('the user opens the action element "View Calls" on the workspace layout', async ({ page }) => {
     await page.callsPage.navigateToMoremenu();
     await page.callsPage.clickCalls();
+    await page.callsPage.callsTab(); 
+    await page.callsPage.clickViewCalls();    
 });
 
 Then('the page updates to the List View with your matching call records', async ({ page }) => {
@@ -52,6 +54,7 @@ Given('the user has administrative preparation privileges enabled', async ({ pag
 When('the user triggers the action element "Import Calls"', async ({ page }) => {
     await page.callsPage.navigateToMoremenu();
     await page.callsPage.clickCalls();
+    await page.callsPage.callsTab(); 
     await page.callsPage.clickImportCalls();
 });
 
