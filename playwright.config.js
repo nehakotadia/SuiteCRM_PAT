@@ -10,7 +10,7 @@ const testDir = defineBddConfig({
 });
 
 module.exports = defineConfig({
-  timeout: 240000,
+  timeout: 120000,
 
   testDir,
 
