@@ -26,4 +26,4 @@ Scenario: Field Verification
 Scenario: Create a Duplicate Call Entry
     Given the user is on the Call creation form
     When the user triggers the action element "Duplicate"
-    Then the duplicate entry is saved successfully  
+    Then the duplicate entry is saved successfully 

@@ -3,7 +3,7 @@ const { expect } = require('@playwright/test');
 class CallsPage {
  constructor(page) {
   this.page = page;
-this.moreLink= page.locator('a').filter({ hasText: 'More' });
+this.moreLink= page.locator('a').filter({ hasText: 'More', exact: true });
 this.callsLink= page.locator('a.nav-link.action-link', { hasText: 'Calls' });
 this.verifyCallPageLocator= page.getByText('CALLS', { exact: true });
 
@@ -18,18 +18,18 @@ this.importCallsLocator = page.getByRole('link', { name: 'Import Calls', exact: 
 this.importWizardLocator = page.locator('iframe').contentFrame().getByRole('heading', { name: 'Step 1: Upload Import File', exact: true });
 
 this.callFrame = page.locator('iframe').contentFrame();
-this.requiredFieldError = this.page.getByText('Missing required field', { exact: true });
+this.requiredFieldError = this.callFrame.getByText('Missing required field:');
 this.subjectField = this.callFrame.locator('#name');
- 
+//this.saveButton = this.callFrame.locator('#SAVE_HEADER');
+this.saveButton = this.callFrame.getByRole('button', { name: 'Save', description: 'Save [Alt+a]' });
+
 this.verifyCallCreatePageLocator = this.callFrame.getByText('CREATE', { exact: true });
+//this.successMessage = this.callFrame.getByText('Test Create');
+this.successMessage = this.callFrame.getByRole('heading', { class:'module-title-text' });
 
-this.subjectField = this.callFrame.locator('#name');
-
-this.saveButton = this.callFrame.getByRole('button',{name: 'Save', description: 'Save [Alt+a]'});
 
 this.actionsButton = this.callFrame.getByRole('link', { name: 'ACTIONS' })
 this.duplicateButton = this.callFrame.getByRole('button', { name: 'Duplicate' });
-this.duplicateSaveButton = this.callFrame.getByRole('button',{name: 'Save', description: 'Save [Alt+a]'});
 }
 
 // SCENARIO 1 - Create a new Call record
@@ -73,53 +73,38 @@ async verifyImportWizard() {
 
 // SCENARIO 4 - Field Verification
 async clearSubject() {
-  const frame = this.page.locator('iframe').contentFrame();
-  const subject = frame.locator('#name');
-  await this.subjectField.waitFor({state: 'visible', timeout: 30000});
   await this.subjectField.fill('');
 }
 async saveCall() {
-  const frame = this.page.locator('iframe').contentFrame();
-  const saveButton = frame.getByRole('button', { name: 'Save', description: 'Save [Alt+a]' });
   await this.saveButton.click();
 }
 async verifyRequiredFieldError() {
-  const frame = this.page.locator('iframe').contentFrame();
-  const subject = frame.locator('#name');
-  await expect(subject).toHaveValue('');
-  await expect(frame.getByText('CREATE', { exact: true })).toBeVisible({ timeout: 30000 });
+  await expect(this.requiredFieldError).toBeVisible({ timeout: 30000 });
 }
 
 // SCENARIO 5 - Create a Duplicate Call Entry
  
 async createOriginalCall() {
- const frame = this.page.locator('iframe').contentFrame(); 
- const subject = frame.locator('#name');
- const save = frame.getByRole('button', { name: 'Save', description: 'Save [Alt+a]' });
- await subject.fill('Test Duplicate Call');
- await save.click();
+ await this.subjectField.fill('Test Duplicate Call');
+ await this.saveButton.click();
 }
+
+async verifyCallSaved() {
+  await expect(this.successMessage).toBeVisible({ timeout: 30000 });
+}
+
+
 async clickActions() {
-  const frame = this.page.locator('iframe').contentFrame();
-  const actionsButton = frame.getByRole('link', { name: 'ACTIONS' });  
-  await expect(actionsButton).toBeVisible({timeout: 60000 });
-  await actionsButton.click();
+  await expect(this.actionsButton).toBeVisible({timeout: 60000 });
+  await this.actionsButton.click();
 }
 async clickDuplicate() {
-  const frame = this.page.locator('iframe').contentFrame();
-  const duplicateButton = frame.getByRole('button', { name: 'Duplicate' });
-  await expect(duplicateButton).toBeVisible({ timeout: 30000 });
+  await expect(this.duplicateButton).toBeVisible({ timeout: 30000 });
   await this.duplicateButton.click();
 }
 async saveDuplicate() {
-  const frame = this.page.locator('iframe').contentFrame();
-  const saveButton = frame.getByRole('button',{ name: 'Save', description: 'Save [Alt+a]'});
-  await expect(saveButton).toBeVisible({ timeout: 30000 });
-  await saveButton.click(); 
+  await expect(this.saveButton).toBeVisible({ timeout: 30000 });
+  await this.saveButton.click(); 
 }
-async verifyDuplicateSaved() {
- const subject = this.callFrame.locator('#name');
- await expect(subject).toHaveValue('Test Duplicate Call',{timeout: 30000 });
- }
 }
 module.exports = { CallsPage };
