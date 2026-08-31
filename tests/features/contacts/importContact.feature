@@ -1,4 +1,4 @@
-Feature: Import Accounts
+Feature: Import Contacts
 
   Scenario: Open Import Contacts page
     Given the user clicks the Contacts tab
