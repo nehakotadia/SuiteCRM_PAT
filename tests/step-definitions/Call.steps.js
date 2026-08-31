@@ -62,3 +62,46 @@ Then('the Import Calls opens to step one allowing user to map their data', async
     await page.callsPage.verifyImportWizard();
     console.log('Import Calls opened');
 });
+
+// SCENARIO 4 - Field Verification
+
+Given('a fresh Call Record form opens successfully in Edit View layout', async ({ page }) => {
+    page.callsPage = new CallsPage(page);
+    await page.callsPage.navigateToMoremenu();
+    await page.callsPage.clickCalls();
+    await page.callsPage.callsTab();
+    await page.callsPage.logCall();
+    await page.callsPage.verifyCallCreatePage();
+    logger.info('Fresh Call Record form opened');
+});
+
+When('the user empty the "Subject" field the primary "Save" form trigger', async ({ page }) => {
+   await page.callsPage.clearSubject();
+   await page.callsPage.saveCall();
+});
+
+Then('the submission fails inline validation error displays "Missing required field"', async ({ page }) => {
+    await page.callsPage.verifyRequiredFieldError();
+});
+
+// SCENARIO 5 - Create a Duplicate Call Entry
+
+Given('the user is on the Call creation form', async ({ page }) => {
+    page.callsPage = new CallsPage(page);
+    await page.callsPage.navigateToMoremenu();
+    await page.callsPage.clickCalls();
+    await page.callsPage.callsTab();
+    await page.callsPage.logCall();
+    await page.callsPage.verifyCallCreatePage();
+    await page.callsPage.createOriginalCall();
+});
+
+When('the user triggers the action element "Duplicate"', async ({ page }) => {
+   await page.callsPage.clickActions();
+   await page.callsPage.clickDuplicate();
+   await page.callsPage.saveDuplicate();
+});
+
+Then('the duplicate entry is saved successfully', async ({ page }) => {
+   await page.callsPage.verifyDuplicateSaved();
+});

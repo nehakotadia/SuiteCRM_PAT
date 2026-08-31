@@ -17,3 +17,13 @@ Scenario: Launch structural Import Wizard - Import Calls
   Given the user has administrative preparation privileges enabled
   When the user triggers the action element "Import Calls"
   Then the Import Calls opens to step one allowing user to map their data  
+
+Scenario: Field Verification
+  Given a fresh Call Record form opens successfully in Edit View layout
+  When the user empty the "Subject" field the primary "Save" form trigger
+  Then the submission fails inline validation error displays "Missing required field"
+
+Scenario: Create a Duplicate Call Entry
+    Given the user is on the Call creation form
+    When the user triggers the action element "Duplicate"
+    Then the duplicate entry is saved successfully  
