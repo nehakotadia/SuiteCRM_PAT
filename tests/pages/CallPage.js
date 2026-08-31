@@ -17,19 +17,15 @@ this.verifyListViewLocator = page.getByText('CALLS', { exact: true });
 this.importCallsLocator = page.getByRole('link', { name: 'Import Calls', exact: true });
 this.importWizardLocator = page.locator('iframe').contentFrame().getByRole('heading', { name: 'Step 1: Upload Import File', exact: true });
 
-this.callFrame = page.locator('iframe').contentFrame();
-this.requiredFieldError = this.callFrame.getByText('Missing required field:');
-this.subjectField = this.callFrame.locator('#name');
-//this.saveButton = this.callFrame.locator('#SAVE_HEADER');
-this.saveButton = this.callFrame.getByRole('button', { name: 'Save', description: 'Save [Alt+a]' });
+this.requiredFieldError = page.locator('iframe').contentFrame().getByText('Missing required field: subject');
+this.subjectField = page.locator('iframe').contentFrame().locator('#name');
+//this.saveButton = page.locator('iframe').contentFrame().locator('#SAVE_HEADER');
+this.saveButton = page.locator('iframe').contentFrame().getByRole('button', { name: 'Save' , description: 'Save [Alt+a]' });
+this.createAnInvite = page.locator('iframe').contentFrame().getByRole('heading', { name: 'Create an invitee' });
+this.verifyCallCreatePageLocator = page.locator('iframe').contentFrame().getByText('CREATE', { exact: true });
 
-this.verifyCallCreatePageLocator = this.callFrame.getByText('CREATE', { exact: true });
-//this.successMessage = this.callFrame.getByText('Test Create');
-this.successMessage = this.callFrame.getByRole('heading', { class:'module-title-text' });
-
-
-this.actionsButton = this.callFrame.getByRole('link', { name: 'ACTIONS' })
-this.duplicateButton = this.callFrame.getByRole('button', { name: 'Duplicate' });
+this.actionsButton = page.locator('iframe').contentFrame().getByRole('link', { name: 'ACTIONS' })
+this.duplicateButton = page.locator('iframe').contentFrame().getByRole('button', { name: 'Duplicate' });
 }
 
 // SCENARIO 1 - Create a new Call record
@@ -72,10 +68,11 @@ async verifyImportWizard() {
 }
 
 // SCENARIO 4 - Field Verification
-async clearSubject() {
-  await this.subjectField.fill('');
+async addSubjectValue(subject) {
+  await this.subjectField.fill(subject);
 }
 async saveCall() {
+  await expect(this.saveButton).toBeVisible({ timeout: 30000 });
   await this.saveButton.click();
 }
 async verifyRequiredFieldError() {
@@ -83,16 +80,12 @@ async verifyRequiredFieldError() {
 }
 
 // SCENARIO 5 - Create a Duplicate Call Entry
- 
-async createOriginalCall() {
- await this.subjectField.fill('Test Duplicate Call');
- await this.saveButton.click();
+async waitForCreateAnInvite() {
+  await expect(this.createAnInvite).toBeVisible({ timeout: 30000 });
 }
-
 async verifyCallSaved() {
-  await expect(this.successMessage).toBeVisible({ timeout: 30000 });
+  await expect(this.subjectField.getByText('Test Duplicate Call')).toBeVisible({ timeout: 30000 });
 }
-
 
 async clickActions() {
   await expect(this.actionsButton).toBeVisible({timeout: 60000 });
