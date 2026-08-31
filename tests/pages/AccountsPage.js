@@ -16,7 +16,7 @@ class AccountPage {
     this.successMessage = page.locator('scrm-dynamic-label');
 
     this.importAccountLink = page.getByRole('link', {name: 'Import Accounts'});
-    this.importLabel = page.locator('iframe').contentFrame().getByRole('heading', { name: 'Step 1: Upload Import File', exact: true });
+    this.importLabel = page.locator('iframe').contentFrame().getByRole('heading', { name: 'Step 1: Upload Import File'});
 
     this.viewAccountLink = page.getByRole('link', {name: 'View Accounts'});
     this.accountsLabel = page.getByText('ACCOUNTS', { exact: true });
