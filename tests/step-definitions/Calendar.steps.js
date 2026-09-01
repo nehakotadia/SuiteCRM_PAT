@@ -40,7 +40,7 @@ Given('the user has selected a meeting for deletion', async ({ page }) => {
 
 When('the user selects the delete action', async ({ page }) => {
     const calendar = new CalendarPage(page);
-    await new CalendarPage(page).clickDelete();
+    await calendar.clickDelete();
 });
 
 Then('the error appears "Are you sure you want to remove the record?"', async ({ page }) => {
